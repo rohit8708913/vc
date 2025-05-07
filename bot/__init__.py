@@ -32,9 +32,9 @@ if os.path.exists(LOG_FILE_ZZGEVC):
     with open(LOG_FILE_ZZGEVC, "w"):
         pass  # truncate by opening in write mode
 
-# Setup logging (reduce verbosity)
+# Set global log level to INFO
 logging.basicConfig(
-    level=logging.INFO,  # Set to INFO or WARNING to reduce noise
+    level=logging.INFO,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     datefmt="%d-%b-%y %H:%M:%S",
     handlers=[
@@ -47,10 +47,14 @@ logging.basicConfig(
     ]
 )
 
-# Suppress excessive logs from libraries
+# Enable DEBUG logs for your bot only
+logging.getLogger("bot").setLevel(logging.DEBUG)
+
+# Suppress noisy third-party libraries
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
 logging.getLogger("urllib3").setLevel(logging.WARNING)
 logging.getLogger("apscheduler").setLevel(logging.WARNING)
 logging.getLogger("asyncio").setLevel(logging.ERROR)
 
-LOGGER = logging.getLogger(__name__)
+# Main logger
+LOGGER = logging.getLogger("bot")
