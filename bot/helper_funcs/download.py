@@ -17,6 +17,7 @@ import math
 import os
 import time
 import subprocess
+from pyrogram.enums import ParseMode
 from datetime import datetime
 from pyrogram import Client, Filters
 
