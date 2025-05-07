@@ -185,7 +185,7 @@ async def incoming_compress_message_f(bot, update):
         sent_message = await bot.send_message(
             chat_id=update.chat.id,
             text=Localisation.DOWNLOAD_START,
-            reply_to_message_id=update.message_id
+            reply_to_message_id=update.id
         )
         chat_id = LOG_CHANNEL
         utc_now = datetime.datetime.utcnow()
@@ -308,7 +308,7 @@ async def incoming_compress_message_f(bot, update):
         now = f"\n{ist} (GMT+05:30)`\n`{bst} (GMT+06:00)"
         await download_start.delete()
         compress_start = await bot.send_message(chat_id, f"**Compressing Video ...** \n\nProcess Started at `{now}`",
-                                                parse_mode="markdown")
+                                                parse_mode=ParseMode.MARKDOWN)
         await sent_message.edit_text(
             text=Localisation.COMPRESS_START
         )
@@ -337,7 +337,7 @@ async def incoming_compress_message_f(bot, update):
             now = f"\n{ist} (GMT+05:30)`\n`{bst} (GMT+06:00)"
             await compress_start.delete()
             upload_start = await bot.send_message(chat_id, f"**Uploading Video ...** \n\nProcess Started at `{now}`",
-                                                  parse_mode="markdown")
+                                                  parse_mode=ParseMode.MARKDOWN)
             await sent_message.edit_text(
                 text=Localisation.UPLOAD_START,
             )
@@ -350,7 +350,7 @@ async def incoming_compress_message_f(bot, update):
                 supports_streaming=True,
                 duration=duration,
                 thumb=thumb_image_path,
-                reply_to_message_id=update.message_id,
+                reply_to_message_id=update.id,
                 progress=progress_for_pyrogram,
                 progress_args=(
                     bot,
@@ -409,7 +409,7 @@ async def incoming_compress_message_f(bot, update):
                 now = datetime.datetime.now()
                 await bot.send_message(chat_id,
                                        f"**Compression Failed, Bot is Free Now !!** \n\nProcess Done at `{now}`",
-                                       parse_mode="markdown")
+                                       parse_mode=ParseMode.MARKDOWN)
                 await download_start.delete()
             except:
                 pass
@@ -458,5 +458,5 @@ async def incoming_cancel_message_f(bot, update):
         await bot.send_message(
             chat_id=update.chat.id,
             text="No active compression exists",
-            reply_to_message_id=update.message_id
+            reply_to_message_id=update.id
         )
