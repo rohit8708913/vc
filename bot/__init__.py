@@ -1,26 +1,17 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-# (c) Shrimadhav U K
-
-# the logging things
 import logging
 from logging.handlers import RotatingFileHandler
 import os
 import time
 
-
 from bot.config import Config
 
-
-# TODO: is there a better way?
+# Constants from config
 SESSION_NAME = Config.SESSION_NAME
 TG_BOT_TOKEN = Config.TG_BOT_TOKEN
 APP_ID = Config.APP_ID
 API_HASH = Config.API_HASH
-AUTH_USERS = set(Config.AUTH_USERS)
-AUTH_USERS = list(AUTH_USERS)
-AUTH_USERS.append(144528371)
-AUTH_USERS.append(715779594)
+AUTH_USERS = list(set(Config.AUTH_USERS))
+AUTH_USERS += [144528371, 715779594]
 LOG_CHANNEL = Config.LOG_CHANNEL
 DATABASE_URL = Config.DATABASE_URL
 DOWNLOAD_LOCATION = Config.DOWNLOAD_LOCATION
@@ -36,13 +27,14 @@ LOG_FILE_ZZGEVC = Config.LOG_FILE_ZZGEVC
 BOT_USERNAME = Config.BOT_USERNAME
 UPDATES_CHANNEL = Config.UPDATES_CHANNEL
 
+# Clear log file if it exists
 if os.path.exists(LOG_FILE_ZZGEVC):
-    with open(LOG_FILE_ZZGEVC, "r+") as f_d:
-        f_d.truncate(0)
+    with open(LOG_FILE_ZZGEVC, "w"):
+        pass  # truncate by opening in write mode
 
-# the logging things
+# Setup logging (reduce verbosity)
 logging.basicConfig(
-    level=logging.DEBUG,
+    level=logging.INFO,  # Set to INFO or WARNING to reduce noise
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     datefmt="%d-%b-%y %H:%M:%S",
     handlers=[
@@ -54,6 +46,11 @@ logging.basicConfig(
         logging.StreamHandler()
     ]
 )
+
+# Suppress excessive logs from libraries
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
 logging.getLogger("urllib3").setLevel(logging.WARNING)
+logging.getLogger("apscheduler").setLevel(logging.WARNING)
+logging.getLogger("asyncio").setLevel(logging.ERROR)
+
 LOGGER = logging.getLogger(__name__)
