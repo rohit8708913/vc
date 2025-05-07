@@ -13,7 +13,8 @@ logging.basicConfig(
 )
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
 LOGGER = logging.getLogger(__name__)
-
+ 
+from pyrogram.enums import ParseMode
 from bot.database import Database
 import os, time, asyncio, json
 from bot.localisation import Localisation
@@ -65,7 +66,7 @@ async def incoming_start_message_f(bot, update):
             if user.status == "kicked":
                 await message.reply_text(
                     text="Sorry Sir, You are Banned to use me. Contact my [Support Group](https://t.me/linux_repo).",
-                    parse_mode="markdown",
+                    parse_mode=ParseMode.MARKDOWN,
                     disable_web_page_preview=True
                 )
                 return
@@ -79,13 +80,13 @@ async def incoming_start_message_f(bot, update):
                         ]
                     ]
                 ),
-                parse_mode="markdown"
+                parse_mode=ParseMode.MARKDOWN
             )
             return
         except Exception:
             await message.reply_text(
                 text="Something went Wrong. Contact my [Support Group](https://t.me/linux_repo).",
-                parse_mode="markdown",
+                parse_mode=ParseMode.MARKDOWN,
                 disable_web_page_preview=True
             )
             return
@@ -117,7 +118,7 @@ async def incoming_compress_message_f(bot, update):
                 await bot.send_message(
                     chat_id=update.chat.id,
                     text="Sorry Sir, You are Banned to use me. Contact my [Support Group](https://t.me/linux_repo).",
-                    parse_mode="markdown",
+                    parse_mode=ParseMode.MARKDOWN,
                     disable_web_page_preview=True
                 )
                 return
@@ -132,14 +133,14 @@ async def incoming_compress_message_f(bot, update):
                         ]
                     ]
                 ),
-                parse_mode="markdown"
+                parse_mode=ParseMode.MARKDOWN
             )
             return
         except Exception:
             await bot.send_message(
                 chat_id=update.chat.id,
                 text="Something went Wrong. Contact my [Support Group](https://t.me/linux_repo).",
-                parse_mode="markdown",
+                parse_mode=ParseMode.MARKDOWN,
                 disable_web_page_preview=True
             )
             return
@@ -148,7 +149,7 @@ async def incoming_compress_message_f(bot, update):
             await bot.send_message(
                 chat_id=update.chat.id,
                 text="🤬 Reply to telegram media 🤬",
-                reply_to_message_id=update.message_id
+                reply_to_message_id=update.id
             )
         except:
             pass
@@ -164,7 +165,7 @@ async def incoming_compress_message_f(bot, update):
                     await bot.send_message(
                         chat_id=update.chat.id,
                         text="🤬 Value should be 10 to 90",
-                        reply_to_message_id=update.message_id
+                        reply_to_message_id=update.id
                     )
                     return
                 except:
@@ -193,7 +194,7 @@ async def incoming_compress_message_f(bot, update):
         bst_now = utc_now + datetime.timedelta(minutes=00, hours=6)
         bst = bst_now.strftime("%d/%m/%Y, %H:%M:%S")
         now = f"\n{ist} (GMT+05:30)`\n`{bst} (GMT+06:00)"
-        download_start = await bot.send_message(chat_id, f"**Bot Become Busy Now !!** \n\nDownload Started at `{now}`",
+        download_start = await bot.send_message(chat_id, f"Bot Become Busy Now !! \n\nDownload Started at `{now}`",
                                                 parse_mode="markdown")
         try:
             d_start = time.time()
@@ -287,7 +288,7 @@ async def incoming_compress_message_f(bot, update):
                 bst = bst_now.strftime("%d/%m/%Y, %H:%M:%S")
                 now = f"\n{ist} (GMT+05:30)`\n`{bst} (GMT+06:00)"
                 await bot.send_message(chat_id, f"**Download Failed, Bot is Free Now !!** \n\nProcess Done at `{now}`",
-                                       parse_mode="markdown")
+                                       parse_mode=ParseMode.MARKDOWN)
                 await download_start.delete()
             except:
                 pass
@@ -390,7 +391,7 @@ async def incoming_compress_message_f(bot, update):
             now = f"\n{ist} (GMT+05:30)`\n`{bst} (GMT+06:00)"
             await upload_start.delete()
             await bot.send_message(chat_id, f"**Upload Done, Bot is Free Now !!** \n\nProcess Done at `{now}`",
-                                   parse_mode="markdown")
+                                   parse_mode=ParseMode.MARKDOWN)
             LOGGER.info(upload.caption);
             try:
                 await upload.edit_caption(
@@ -427,7 +428,7 @@ async def incoming_compress_message_f(bot, update):
             bst = bst_now.strftime("%d/%m/%Y, %H:%M:%S")
             now = f"\n{ist} (GMT+05:30)`\n`{bst} (GMT+06:00)"
             await bot.send_message(chat_id, f"**Download Error, Bot is Free Now !!** \n\nProcess Done at `{now}`",
-                                   parse_mode="markdown")
+                                   parse_mode=ParseMode.MARKDOWN)
             await download_start.delete()
         except:
             pass
